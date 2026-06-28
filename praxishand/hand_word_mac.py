@@ -40,6 +40,7 @@ def schreibe_ende(text: str) -> None:
         _osa(f'''
         set neu to (read POSIX file "{tmp.name}" as «class utf8»)
         tell application "Microsoft Word"
+            activate
             set t to content of text object of active document
             set content of text object of active document to t & return & return & neu
         end tell

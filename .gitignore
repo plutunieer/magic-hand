@@ -1,9 +1,20 @@
+# virtuelle Umgebung
 .venv/
+
+# Python
 __pycache__/
 *.pyc
 build/
 dist/
-profile/                 # eingeloggtes Browser-Profil (Doximity GPT) — nie committen
-rezept.yaml              # echtes Rezept mit ggf. internen Selektoren — lokal
-runs/                    # Logs + Fehler-Screenshots
-*.spec.bak
+
+# eingeloggtes Browser-Profil (Cookies/Session) — NIE committen
+profile/
+
+# echtes Rezept (lokal, ggf. interne Selektoren)
+rezept.yaml
+
+# Logs + Fehler-Screenshots
+runs/
+
+# Diagnose-Pakete
+diagnose.zip

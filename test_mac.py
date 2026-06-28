@@ -35,8 +35,9 @@ CHATGPT = {
     ],
     "timeout_antwort_sek": 180,
     "prompt_vorlage": (
-        "Hier ist der Inhalt eines Word-Dokuments. Fasse die wichtigsten Punkte "
-        "in kurzen Stichpunkten zusammen.\n\n--- DOKUMENT ---\n{daten}\n--- ENDE ---"
+        "Der folgende Text aus einem Word-Dokument ist eine Aufgabe/Anweisung. "
+        "Führe sie aus und antworte ausführlich und konkret (z. B. recherchiere, "
+        "wenn darum gebeten wird).\n\n--- AUFGABE ---\n{daten}\n--- ENDE ---"
     ),
 }
 
