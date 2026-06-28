@@ -12,7 +12,21 @@ DANN testen (Word offen mit einem Dokument):
 """
 from __future__ import annotations
 
+import re
 import sys
+
+
+def bereinige(text: str) -> str:
+    """Markdown-Zeichen in sauberen Word-tauglichen Text wandeln."""
+    zeilen = []
+    for z in text.splitlines():
+        z = re.sub(r"\*\*|__|`", "", z)          # fett/code-Marker weg
+        z = re.sub(r"^\s*#{1,6}\s*", "", z)       # Überschriften-#
+        z = re.sub(r"^\s*[-*]\s+", "• ", z)       # Aufzählungen -> •
+        z = re.sub(r"^\s*\+\d+\s*$", "", z)       # Quellen-Reste "+1"
+        zeilen.append(z.rstrip())
+    out = "\n".join(zeilen)
+    return re.sub(r"\n{3,}", "\n\n", out).strip()  # zu viele Leerzeilen
 
 from praxishand.hand_dox import DoxHand, login
 from praxishand.hand_word_mac import lese_dokument, schreibe_ende
@@ -71,7 +85,7 @@ def main() -> int:
             log.line("Abgebrochen — nichts geschrieben.")
             return 0
 
-        schreibe_ende(antwort)
+        schreibe_ende(bereinige(antwort))
         log.line("FERTIG — Antwort ins Word-Dokument geschrieben.")
         return 0
     except Exception as e:                # noqa: BLE001
