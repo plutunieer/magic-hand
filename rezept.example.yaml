@@ -1,0 +1,109 @@
+# =====================================================================
+# Praxis-Hand — Rezept (eine gelernte Aufgabe)
+#
+# Der Ablauf ist eine SCHRITT-FOLGE beliebiger Länge (wie ein aufgenommenes
+# Makro). Die App spielt die Schritte der Reihe nach ab. Aufgenommen werden
+# ELEMENTE (über den Windows-Accessibility-Baum) + die Aktion — keine
+# Screenshots. Aufgebaut/repariert wird das vom Recorder oder vom lokalen
+# Claude-Code-Agenten (siehe CLAUDE.md).
+# =====================================================================
+
+name: "Kassen-Zusammenfassung"
+hotkey: "ctrl+shift+k"
+kalibriert: false
+support_email: "support@example.com"
+
+# ------------------------------------------------------------------
+# EMR-Grundeinstellungen (Cerner PowerChart, lokales Win32-Programm)
+# ------------------------------------------------------------------
+emr:
+  fenster_titel_enthaelt: "PowerChart"
+  greif_methode: "uia"                  # "uia" (bevorzugt) | "ocr" (Notnagel)
+
+  # Feldnamen innerhalb eines Listen-Eintrags (für die Aktion lese_liste)
+  eintrag:
+    feld_datum: "Date"
+    feld_typ:   "Type"
+    feld_text:  "Description"
+
+  # FESTE REGEL — welche Einträge sind relevant (kein Modell nötig)
+  filter:
+    datum: ["heute", "gestern"]
+    typ:   ["Befund", "Labor", "Verlauf", "Finding", "Lab", "Progress"]
+    max_eintraege: 40
+
+  # OCR-Notnagel (nur falls UIA die Liste nicht lesbar macht)
+  ocr:
+    aktiv: false
+    region_liste:  [0, 0, 0, 0]
+    region_report: [0, 0, 0, 0]
+
+# ------------------------------------------------------------------
+# DER ABLAUF — beliebig viele Schritte, in dieser Reihenfolge.
+# Aktionen:
+#   tab_wechseln      auf einen Reiter/Tab klicken
+#   klicken           auf ein Element klicken (Knopf, Eintrag, …)
+#   tippen            Text in ein Feld schreiben (text: "...")
+#   scrollen          eine Liste scrollen (wie: "ende" | n)
+#   lese_liste        Einträge sammeln + feste Regel anwenden  -> Variable "daten"
+#   warte             Pause (sekunden: N)
+#   an_dox            "daten" an Doximity GPT geben            -> Variable "antwort"
+#   report_schreiben  "antwort" ins Zielfeld schreiben (nach Freigabe)
+#
+# "ziel" ist eine Kandidatenliste von Selektoren (erster Treffer gewinnt) —
+# vom Recorder/Agenten gefüllt: {control_type, name, automation_id}.
+# ------------------------------------------------------------------
+schritte:
+  - aktion: tab_wechseln
+    ziel: [ { control_type: "TabItem", name: "Daten" } ]
+
+  # Beispiele für weitere Schritte (auskommentiert — je nach echtem Ablauf):
+  # - aktion: tippen
+  #   ziel: [ { control_type: "Edit", name: "Search" } ]
+  #   text: ""                       # was ins Suchfeld getippt wird
+  # - aktion: klicken
+  #   ziel: [ { control_type: "Button", name: "Search" } ]
+  # - aktion: scrollen
+  #   ziel: [ { control_type: "List" } ]
+  #   wie: "ende"
+
+  - aktion: lese_liste
+    ziel: [ { control_type: "List" }, { control_type: "Table" } ]
+
+  - aktion: an_dox
+
+  - aktion: tab_wechseln
+    ziel: [ { control_type: "TabItem", name: "Report" } ]
+
+  - aktion: report_schreiben
+    ziel: [ { control_type: "Edit" }, { control_type: "Document" } ]
+    modus: "anhaengen"               # "anhaengen" | "ersetzen"
+
+# ------------------------------------------------------------------
+# VERARBEITUNG: Doximity GPT (Browser, Playwright)
+# ------------------------------------------------------------------
+dox:
+  url: "https://www.doximity.com/gpt"
+  eingabe:
+    - ["role", "textbox", ""]
+    - ["css", "textarea"]
+    - ["placeholder", "Message"]
+  senden:
+    - ["role", "button", "Send"]
+    - ["text", "Send"]
+    - ["css", "button[type=submit]"]
+  antwort:
+    - ["css", "[data-message-role='assistant']"]
+    - ["css", ".assistant-message"]
+    - ["role", "article", ""]
+  timeout_antwort_sek: 180
+  prompt_vorlage: |
+    You are assisting a physician. Below are clinical entries (findings, labs,
+    progress notes) from today and yesterday. Write a concise, structured summary
+    suitable for the report the physician is drafting. Do not invent information.
+
+    --- CLINICAL ENTRIES ---
+    {daten}
+    --- END ---
+
+freigabe: "pflicht"                   # "pflicht" (Review-Fenster) | "aus"

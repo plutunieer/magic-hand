@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+profile/                 # eingeloggtes Browser-Profil (Doximity GPT) — nie committen
+rezept.yaml              # echtes Rezept mit ggf. internen Selektoren — lokal
+runs/                    # Logs + Fehler-Screenshots
+*.spec.bak

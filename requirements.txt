@@ -1,0 +1,13 @@
+# Plattformneutral
+playwright>=1.40
+PySide6>=6.6
+PyYAML>=6.0
+python-dateutil>=2.9
+
+# Windows-only (EMR-UIA-Hand + OCR-Fallback). pip ignoriert diese auf macOS/Linux
+# dank Umgebungs-Marker, sodass die Entwicklung auf dem Mac trotzdem funktioniert.
+uiautomation>=2.0 ; sys_platform == "win32"
+pyautogui>=0.9.54 ; sys_platform == "win32"
+mss>=9.0 ; sys_platform == "win32"
+pytesseract>=0.3.10 ; sys_platform == "win32"
+pyperclip>=1.8
