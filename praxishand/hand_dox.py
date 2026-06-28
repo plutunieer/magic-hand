@@ -57,8 +57,8 @@ def _erst_sichtbar(page, kandidaten, timeout=15000):
     raise RuntimeError(f"Kein sichtbares Element (zuletzt: {letzter})")
 
 
-def login(headless: bool = False) -> None:
-    """EINMAL aufrufen: Browser öffnet, Arzt loggt sich bei Doximity GPT ein.
+def login(headless: bool = False, url: str = "https://www.doximity.com/gpt") -> None:
+    """EINMAL aufrufen: Browser öffnet, man loggt sich beim KI-Tool ein.
     Das Profil wird in ./profile gespeichert und danach wiederverwendet."""
     PROFIL.mkdir(exist_ok=True)
     log = Log("dox-login")
@@ -69,8 +69,8 @@ def login(headless: bool = False) -> None:
             viewport={"width": 1280, "height": 900},
         )
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto("https://www.doximity.com/gpt", wait_until="domcontentloaded")
-        log.line("Bitte bei Doximity GPT einloggen. Fenster nach dem Login schließen.")
+        page.goto(url, wait_until="domcontentloaded")
+        log.line("Bitte einloggen. Fenster nach dem Login schließen.")
         # Warten bis der Tab geschlossen wird (Arzt ist fertig)
         try:
             while ctx.pages:
