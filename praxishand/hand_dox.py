@@ -14,7 +14,7 @@ import sys
 import time
 from pathlib import Path
 
-# Beim gepackten .exe ist Chromium mit eingebündelt (siehe PraxisHand.spec):
+# Beim gepackten .exe ist Chromium mit eingebündelt (siehe Magic Hand.spec):
 # Playwright muss dorthin zeigen, BEVOR es importiert/gestartet wird.
 if getattr(sys, "frozen", False):
     _bundled = os.path.join(getattr(sys, "_MEIPASS", ""), "ms-playwright")

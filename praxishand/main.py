@@ -1,4 +1,4 @@
-"""Praxis-Hand — Einstieg + CLI.
+"""Magic Hand — Einstieg + CLI.
 
   python -m praxishand.main                # App starten (schwebende Knopf-Leiste)
   python -m praxishand.main --login-dox    # EINMAL: bei Doximity GPT einloggen
@@ -13,7 +13,7 @@ import sys
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Praxis-Hand: EMR -> Doximity GPT -> EMR")
+    ap = argparse.ArgumentParser(description="Magic Hand: EMR -> Doximity GPT -> EMR")
     ap.add_argument("--login-dox", action="store_true",
                     help="Einmaliger Login bei Doximity GPT (Profil speichern)")
     ap.add_argument("--inspect-dox", action="store_true",

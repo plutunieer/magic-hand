@@ -1,6 +1,6 @@
-# PraxisHand — Step-by-Step Guide
+# Magic Hand — Step-by-Step Guide
 
-PraxisHand reads the relevant entries from **PowerChart**, sends them to your AI
+Magic Hand reads the relevant entries from **PowerChart**, sends them to your AI
 tool (**Doximity GPT / ChatGPT**), and writes the result back into your **Report**.
 You set it up once with an AI helper; after that it's one button. You always
 review and approve before anything is written into a chart.
@@ -18,8 +18,8 @@ Then open **Terminal / PowerShell** and run, line by line:
 
 ```powershell
 npm install -g @anthropic-ai/claude-code
-git clone https://github.com/plutunieer/praxis-hand.git
-cd praxis-hand
+git clone https://github.com/plutunieer/magic-hand.git
+cd magic-hand
 pip install -r requirements.txt
 python -m playwright install chromium
 ```
@@ -30,13 +30,13 @@ python -m playwright install chromium
 
 1. **Open PowerChart** and your **AI tool in the browser** (Doximity GPT / ChatGPT).
    👉 During setup, use a **test patient** — never a real chart.
-2. In the terminal (inside the `praxis-hand` folder), start the helper:
+2. In the terminal (inside the `magic-hand` folder), start the helper:
    ```powershell
    claude
    ```
 3. **Describe your workflow in plain words.** Copy this and fill in your steps:
 
-   > Read CLAUDE.md and set up PraxisHand. My workflow in PowerChart is:
+   > Read CLAUDE.md and set up Magic Hand. My workflow in PowerChart is:
    > 1. I open the **"Results"** tab.
    > 2. I look at the entries from **today and yesterday**.
    > 3. The relevant ones are **labs and findings**.

@@ -1,4 +1,4 @@
-"""PHI-freies Logging für die Praxis-Hand.
+"""PHI-freies Logging für die Magic Hand.
 
 WICHTIG: Es wird NIE der Inhalt von Patienten-Einträgen geloggt — nur
 Ablauf-Schritte, Zähler und Fehler. Bei medizinischen Daten ist das Pflicht.
@@ -29,7 +29,7 @@ class Log:
         self.dir = RUNS / (stamp + (f"-{safe}" if safe else ""))
         self.dir.mkdir(parents=True, exist_ok=True)
         self.f = open(self.dir / "log.txt", "a", encoding="utf-8")
-        self.line(f"=== Praxis-Hand {stamp} tag={tag!r} ===")
+        self.line(f"=== Magic Hand {stamp} tag={tag!r} ===")
 
     def line(self, msg: str = "") -> None:
         ts = datetime.datetime.now().strftime("%H:%M:%S")

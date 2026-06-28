@@ -1,4 +1,4 @@
-# Praxis-Hand — EMR → Doximity GPT → EMR (vollautomatisch)
+# Magic Hand — EMR → Doximity GPT → EMR (vollautomatisch)
 
 Eine „Hand", die für einen Arzt den langweiligen Büroteil übernimmt: relevante
 Einträge im **Cerner PowerChart** (lokales Windows-Programm) suchen → an
@@ -85,7 +85,7 @@ installieren**. Arzt-Anleitung: **[`SETUP-FOR-DOCTOR.md`](SETUP-FOR-DOCTOR.md)**
 ## Entwicklung (auf macOS, Ziel Windows)
 
 ```bash
-cd ~/Documents/Startup/praxis-hand
+cd ~/Documents/Startup/magic-hand
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 python -m playwright install chromium
@@ -117,7 +117,7 @@ python -m praxishand.main --run            # einen Durchlauf headless/CLI starte
 Der Arzt ist Laie und es ist kein Techniker vor Ort. Der **Betreuer** ist
 deshalb ein **lokaler Claude-Code-Agent** auf demselben Windows-PC:
 
-- **Daily Use:** der Arzt nutzt `PraxisHand.exe` (ein Knopf, Pflicht-Freigabe).
+- **Daily Use:** der Arzt nutzt `Magic Hand.exe` (ein Knopf, Pflicht-Freigabe).
 - **Einrichten (Normalfall):** grafischer Assistent (⚙ Einrichten) — Arzt zeigt
   mit der Maus, kein YAML.
 - **Reparieren / harter Fall:** der Arzt startet **`Fix-mit-KI.bat`** und sagt in
@@ -152,7 +152,7 @@ preis, eskaliert der Agent an die Klinik-IT (FHIR-Schnittstelle).
 ## Dateien
 
 ```
-praxis-hand/
+magic-hand/
 ├─ README.md                  # diese Datei (Entwickler)
 ├─ CLAUDE.md                  # Drehbuch für den Vor-Ort-Claude-Code-Agenten
 ├─ SETUP-FOR-DOCTOR.md        # kinderleichte Anleitung (Englisch, für den US-Arzt)

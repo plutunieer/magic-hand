@@ -1,4 +1,4 @@
-"""Praxis-Hand — automatisiert den Büro-Roundtrip EMR -> Doximity GPT -> EMR.
+"""Magic Hand — automatisiert den Büro-Roundtrip EMR -> Doximity GPT -> EMR.
 
 Module:
   rezept         Rezept (YAML) laden/speichern

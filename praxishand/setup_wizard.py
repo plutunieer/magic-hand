@@ -134,7 +134,7 @@ class Recorder(QtWidgets.QDialog):
     def __init__(self, rezept: Rezept, parent=None):
         super().__init__(parent)
         self.rezept = rezept
-        self.setWindowTitle("PraxisHand — Ablauf aufnehmen")
+        self.setWindowTitle("Magic Hand — Ablauf aufnehmen")
         self.resize(560, 480)
         lay = QtWidgets.QVBoxLayout(self)
 

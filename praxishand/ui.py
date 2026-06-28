@@ -68,7 +68,7 @@ class Leiste(QtWidgets.QWidget):
         super().__init__()
         self.rezepte = rezepte
         self.worker: Worker | None = None
-        self.setWindowTitle("Praxis-Hand")
+        self.setWindowTitle("Magic Hand")
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.Tool)
         lay = QtWidgets.QHBoxLayout(self)
         lay.setContentsMargins(8, 6, 8, 6)
@@ -97,7 +97,7 @@ class Leiste(QtWidgets.QWidget):
     def _erststart_pruefen(self):
         if self.rezepte and not self.rezepte[0].kalibriert:
             QtWidgets.QMessageBox.information(
-                self, "PraxisHand",
+                self, "Magic Hand",
                 "Willkommen! Wir richten die App einmal gemeinsam ein.")
             self.einrichten()
 
@@ -165,7 +165,7 @@ def starten() -> int:
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
     rezepte = alle_rezepte()
     if not rezepte:
-        QtWidgets.QMessageBox.critical(None, "Praxis-Hand",
+        QtWidgets.QMessageBox.critical(None, "Magic Hand",
                                        "Kein Rezept gefunden (rezept.yaml).")
         return 1
     leiste = Leiste(rezepte)

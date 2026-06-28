@@ -63,7 +63,7 @@ def hilfe_anfordern(support_email: str, titel_enthaelt: str = "PowerChart") -> P
         pass
 
     if support_email:
-        betreff = "PraxisHand%20-%20Hilfe%20benoetigt"
+        betreff = "Magic Hand%20-%20Hilfe%20benoetigt"
         body = ("Es%20gab%20ein%20Problem.%20Bitte%20die%20Datei%20"
                 f"{paket.name}%20aus%20dem%20geoeffneten%20Ordner%20anhaengen.")
         webbrowser.open(f"mailto:{support_email}?subject={betreff}&body={body}")
