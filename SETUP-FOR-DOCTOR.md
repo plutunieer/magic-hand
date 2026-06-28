@@ -1,30 +1,79 @@
-# PraxisHand — Setup (via GitHub + Terminal)
+# PraxisHand — Step-by-Step Guide
 
-No installer. You clone the project and let the **AI helper (Claude Code)** run
-everything from the terminal.
+PraxisHand reads the relevant entries from **PowerChart**, sends them to your AI
+tool (**Doximity GPT / ChatGPT**), and writes the result back into your **Report**.
+You set it up once with an AI helper; after that it's one button. You always
+review and approve before anything is written into a chart.
 
-## One-time setup (with help, ~15 min)
-1. Install **Git**, **Python**, **Node.js**, and **Claude Code**
-   (`npm install -g @anthropic-ai/claude-code`).
-2. Clone the project:
-   `git clone https://github.com/<your-org>/praxis-hand.git`
-3. `cd praxis-hand`  →  `pip install -r requirements.txt`  →
-   `python -m playwright install chromium`
-4. Start the helper: `claude`
-   - It reads `CLAUDE.md` and guides the rest: log in to Doximity GPT, and build
-     the step sequence by inspecting PowerChart (use a **test patient**, never a
-     real chart, during setup).
+---
 
-## Daily use
-- `python -m praxishand.main`  → toolbar → open chart → click the button →
-  review → approve. (Or just ask `claude` to run it.)
+## Part 1 — Install (once, ~15 min)
 
-## When something breaks
-- Run `claude`, describe the problem in plain words. The agent fixes the step
-  sequence right there. **No reinstall — ever:** `git pull` for updates.
+Install these (ask IT if needed):
+- **Git** — https://git-scm.com
+- **Python** — https://python.org (check "Add to PATH")
+- **Node.js** — https://nodejs.org
+
+Then open **Terminal / PowerShell** and run, line by line:
+
+```powershell
+npm install -g @anthropic-ai/claude-code
+git clone https://github.com/plutunieer/praxis-hand.git
+cd praxis-hand
+pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+---
+
+## Part 2 — Set up with the AI helper (once)
+
+1. **Open PowerChart** and your **AI tool in the browser** (Doximity GPT / ChatGPT).
+   👉 During setup, use a **test patient** — never a real chart.
+2. In the terminal (inside the `praxis-hand` folder), start the helper:
+   ```powershell
+   claude
+   ```
+3. **Describe your workflow in plain words.** Copy this and fill in your steps:
+
+   > Read CLAUDE.md and set up PraxisHand. My workflow in PowerChart is:
+   > 1. I open the **"Results"** tab.
+   > 2. I look at the entries from **today and yesterday**.
+   > 3. The relevant ones are **labs and findings**.
+   > 4. I send those to my AI tool and have it summarize.
+   > 5. The result goes into PowerChart on the **"Report"** tab, in the big text box.
+   >
+   > Ask me whenever you need me to point at something on the screen.
+
+4. The helper will ask questions and say things like *"hover your mouse over the
+   Results tab so I can see it."* Just follow along. It builds and tests the steps.
+
+That's it — you won't do this again.
+
+---
+
+## Part 3 — Daily use (one button)
+
+1. Open **PowerChart** and your **AI tool** as usual.
+2. In the terminal: `python -m praxishand.main` → a small toolbar appears.
+3. Open the patient's chart → click the task button.
+4. The app gathers the entries → sends them to the AI → shows you the result.
+5. **Read it, edit if needed, click "Approve".** It's written into the Report.
+
+(If you don't approve, nothing is written.)
+
+---
+
+## If something doesn't work
+
+Start `claude` again and describe the problem in plain words, e.g.
+*"it can't find the list of entries"* — the helper fixes it right there.
+**No reinstall ever** — for updates just run `git pull`.
+
+---
 
 ## Notes
-- Daily use needs **no Claude API**. Only the `claude` helper needs an Anthropic
-  login, and only for setup/repair.
-- The agent never reads patient data or writes to a real chart without approval.
-- A coding agent with terminal access on a clinical PC needs IT approval.
+- Daily use needs **no AI/API key** — only the `claude` helper does, and only
+  during setup/repair.
+- The helper never reads patient data or writes to a real chart without approval.
+- A terminal AI agent on a clinical PC needs **IT approval**.
