@@ -29,25 +29,37 @@ def apps() -> str:
                 'return name of (processes whose background only is false)')
 
 
-def inspect(app: str) -> str:
-    """Was im vordersten Fenster der App bedienbar/lesbar ist (Probe fürs Anlernen)."""
+def inspect(app: str, max_elemente: int = 80) -> str:
+    """TIEFE Probe: läuft den ganzen Elementbaum des vordersten Fensters durch
+    (Typ + Beschriftung) — so findet man Knöpfe/Felder, die verschachtelt liegen.
+    Begrenzt auf `max_elemente`, damit grosse Apps nicht hängen."""
     return _osa(f'''
     tell application "System Events" to tell process "{app}"
         set out to "App: {app}" & linefeed
         try
-            set out to out & "Fenster: " & (name of windows) & linefeed
-        end try
-        try
-            set out to out & "Knöpfe: " & (name of buttons of window 1) & linefeed
-        end try
-        try
-            set out to out & "Textfelder: " & (count of text fields of window 1) & linefeed
-        end try
-        try
-            set out to out & "Textbereiche: " & (count of text areas of window 1) & linefeed
-        end try
-        try
             set out to out & "Menüs: " & (name of menu bar items of menu bar 1) & linefeed
+        end try
+        set out to out & "--- Elemente (Typ 'Name') ---" & linefeed
+        set n to 0
+        try
+            set els to entire contents of window 1
+            repeat with e in els
+                if n ≥ {max_elemente} then exit repeat
+                try
+                    set zeile to (class of e as string)
+                    try
+                        set nm to name of e
+                        if nm is not missing value then set zeile to zeile & " '" & nm & "'"
+                    end try
+                    try
+                        set vv to value of e
+                        if vv is not missing value and (vv as string) is not "" then ¬
+                            set zeile to zeile & "  = " & (text 1 thru 40 of (vv as string))
+                    end try
+                    set out to out & zeile & linefeed
+                    set n to n + 1
+                end try
+            end repeat
         end try
         return out
     end tell''')
